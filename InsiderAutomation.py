@@ -1,5 +1,4 @@
 """
-
 INSIDER AUTOMATION TASK
 1-Visit useinsider.com and check Insider home page is opened or not
 2-Select More menu in navigation bar, select "Carrers" and check Career page

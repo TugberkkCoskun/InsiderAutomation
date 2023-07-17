@@ -61,6 +61,45 @@ def click_quality_assurance(context):
 def assert_open_positions_page(context):
     assert "https://useinsider.com/careers/open-positions/?department=qualityassurance" in context.driver.current_url
 
+
+@given('I am on the "Open Positions" page')
+def open_positions_page(context):
+    context.driver =webdriver.Chrome()
+    context.driver.maximize_window()
+    context.driver.get("https://useinsider.com/careers/open-positions/?department=qualityassurance")
+
+@when('I select the "Istanbul,Turkey" on the filter')
+def select_filter(context):
+    wait= WebDriverWait(context.driver,5)
+    dropdown_filter = wait.until(EC.element_to_be_clickable((By.ID,"select2-filter-by-location-container")))
+    context.driver.execute_script("arguments[0].click()",dropdown_filter)
+    istanbul_filter = wait.until(EC.presence_of_element_located((By.XPATH,'//option[@class="job-location istanbul-turkey"]')))
+    context.driver.execute_script("arguments[0].click()",istanbul_filter)
+@then('I should see the job listed appeared and contains department "QA" location "Istanbul,Turkey" and "View Now" button')
+def assert_department_location_view_button(context):
+    carrer_position_list = context.driver.find_element(By.ID,"career-position-list")
+    department_name = context.driver.find_element(By.XPATH, '//span[@class="position-department text-large font-weight-600 text-primary"]')
+    location_name = context.driver.find_element(By.XPATH, '//div[@class="position-location text-large"]')
+    view_role_button = context.driver.find_element(By.XPATH, '//a[@class="btn btn-navy rounded pt-2 pr-5 pb-2 pl-5"]')
+    if department_name == "Quality Assurance" and location_name == "Istanbul, Turkey" and view_role_button == "View Role":
+        pass
+@when('I clicked the leftmost job')
+def click_view_role_button(context):
+    wait = WebDriverWait(context.driver,5)
+    leftmost_button_view_role = context.driver.find_element(By.XPATH,"/html/body/section[3]/div/div/div[2]/div[1]/div/a")
+    context.driver.execute_script("arguments[0].click()",leftmost_button_view_role)
+@then('I should been redirected to the lever site')
+def lever_page(context):
+    wait = WebDriverWait(context.driver, 5)
+    current_window = context.driver.current_url
+    wait.until(EC.number_of_windows_to_be(2))
+    new_window = context.driver.window_handles[-1]
+    context.driver.switch_to.window(new_window)
+    new_window_url = context.driver.current_url
+    expected_url = "https://jobs.lever.co/useinsider/78ddbec0-16bf-4eab-b5a6-04facb993ddc"
+    if new_window_url == expected_url:
+        pass
+
 # Web tarayıcısını kapat
 def after_scenario(context, scenario):
     if hasattr(context, 'driver'):

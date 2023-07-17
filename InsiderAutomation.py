@@ -6,8 +6,8 @@ INSIDER AUTOMATION TASK
 4-Click "See all teams" select Quality Assurance, click "See all QA jobs"
 5-filter jobs by location - Istanbul, Turkey and department- Quality Assurance, check presence of jobs list
 6-Check that all jobs' position contains "Quality Assurance", department contaions
-7-Quality assurance, location contains "Istanbul, Turkey," and "Apply Now"  button
-8-Click "Apply Now" button and check that this action redirects us to Lever Application form page
+7-Quality assurance, location contains "Istanbul, Turkey," and "View Now"  button
+8-Click "View Now" button and check that this action redirects us to Lever Application form page
 """
 from selenium import webdriver
 from selenium.webdriver.common.by import By
